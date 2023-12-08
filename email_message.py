@@ -4,9 +4,12 @@ from email.message import EmailMessage
 from email.utils import formataddr
 from pathlib import Path
 from dotenv import load_dotenv  
+from quotes import quotes
+from random import choice
 
 PORT = 587  
 EMAIL_SERVER = "smtp-mail.outlook.com"    # Adjust server address, if you are not using @outlook
+QUOTE = choice(quotes)
 
 # Load the environment variables
 current_dir = Path(__file__).resolve().parent if "__file__" in locals() else Path.cwd()
@@ -16,6 +19,18 @@ load_dotenv(envars)
 # Read environment variables
 sender_email = os.getenv("EMAIL")
 password_email = os.getenv("PASSWORD")
+
+# Turn goals into <li> elements
+def get_goals():
+    goals_env = os.getenv("GOALS")
+    goals_list = [f"<li>{goal.strip().capitalize()}</li>" for goal in goals_env.split(',') if goal]
+    return "".join(goals_list)
+
+# Turn reflections into <li> elements
+def get_reflections():
+    reflections_env = os.getenv("REFLECTIONS")
+    reflections_list = [f"<li>{reflection.strip().capitalize()}</li>" for reflection in reflections_env.split(',') if reflection]
+    return "".join(reflections_list)
 
 # Take emails from .env
 def get_receiver_emails():
@@ -34,6 +49,8 @@ def send_email(subject, name='friend'):
 
     msg.set_content(
         f"""\
+        {QUOTE['h']}
+        
         Hi {name},
         Trying to send and automated email with code.
         
@@ -53,25 +70,29 @@ def send_email(subject, name='friend'):
         f"""\
     <html>
     <body>
-        <h1>Automated Email Created With Python</h1>
+        <h2>{QUOTE['h']}</h2>
+        
         <p>Hi {name},</p>
         <p>I wanted to share this automated email created with Python. It's not just an email; it's a way to practice and learn about different Python modules.</p>
 
-        <h2>Goals:</h2>
+        <h3>Goals:</h3>
         <ul>
-            <li>Send reminders of long-term goals</li>
-            <li>Reflect on achievements and appreciate progress</li>
+            {get_goals()}
+        </ul>
+        
+        <h3>Reflections:</h3>
+        <ul>
+            {get_reflections()}
         </ul>
 
-        <h2>Icebox:</h2>
+        <h3>Icebox:</h3>
         <ul>
-            <li>Fetch and add inspirational quotes? </li>
             <li>Fetch and display today's weather? </li>
             <li> Fetch for a random coding challenge? </li>
         </ul>
 
         <p>Cheers,<br>
-        Joezari
+        Joezari from December 2023
         </p>
     </body>
     </html>
@@ -87,5 +108,5 @@ def send_email(subject, name='friend'):
 
 if __name__ == "__main__":
     send_email(
-        subject="Used Python code to send this",
+        subject="Daily Reminder from 2023",
     )
