@@ -37,7 +37,7 @@ def get_receiver_emails():
     receiver_emails_str = os.getenv('RECEIVER_EMAILS', "")
     return [email.strip() for email in receiver_emails_str.split(",") if email]
 
-def send_email(subject, name='friend'):
+def send_email(subject, name='Future Me'):
     receiver_emails = get_receiver_emails()
     
     # Create the base text message.
@@ -55,9 +55,10 @@ def send_email(subject, name='friend'):
         Trying to send and automated email with code.
         
         Goals:
-        - To practice and learn about different Python modules.
-        - Send reminder of long-term goals
-        - Reflect on achievements and appreciate progress
+        {get_goals()}
+        
+        Reflections:
+        {get_reflections()}
         
         Cheers,
         Joezari
