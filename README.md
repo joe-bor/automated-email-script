@@ -14,21 +14,29 @@ Before running the script, ensure you have the following installed:
 1. Clone the repository to your local machine (optional):
 
    ```bash
-   git clone https://github.com/yourusername/automated-email-script.git
+   git clone https://github.com/joe-bor/automated-email-script.git
    cd automated-email-script
    ```
 
-2. Create a file named .env in the project root and add the following:
+2. Install required dependencies using the provided `requirements.txt`
+
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Create a file named .env in the project root and add the following:
 
    ```
    EMAIL=your_email@example.com
    PASSWORD=your_email_password
    RECEIVER_EMAILS=email1@example.com,email2@example.com
+   GOALS=goal1, goal2, goal3
+   REFLECTIONS=reflection1, reflection2, reflection3
    ```
 
-- Replace the placeholders with your actual email, password, and receiver email addresses.
+- Replace the placeholders with your actual email, password, and receiver email addresses. Add your goals and reflections for customization.
 
-3. Execute the script by running the following command:
+4. Execute the script by running the following command:
 
    ```bash
    python automated_email_script.py
@@ -38,8 +46,8 @@ Before running the script, ensure you have the following installed:
 
 - Email Content:
 
-  - Modify the msg.set_content section in the script to customize the plain text version of the email.
-  - Edit the HTML content in the msg.add_alternative section for the HTML version.
+  - Modify the `get_goals` and `get_reflections` functions in the script to customize your goals and reflections dynamically.
+  - Edit the HTML content in the `msg.add_alternative` section for the HTML version to reflect your message.
 
 - Icebox Section:
 
