@@ -1,15 +1,15 @@
 import os
 import smtplib
+import random
 from email.message import EmailMessage
 from email.utils import formataddr
 from pathlib import Path
 from dotenv import load_dotenv  
 from quotes import quotes
-from random import choice
 
 PORT = 587  
 EMAIL_SERVER = "smtp-mail.outlook.com"    # Adjust server address, if you are not using @outlook
-QUOTE = choice(quotes)
+QUOTE = random.choice(quotes)
 
 # Load the environment variables
 current_dir = Path(__file__).resolve().parent if "__file__" in locals() else Path.cwd()
@@ -19,6 +19,12 @@ load_dotenv(envars)
 # Read environment variables
 sender_email = os.getenv("EMAIL")
 password_email = os.getenv("PASSWORD")
+
+# Turn accomplishments to <li> elements
+def get_accomplishments():
+    accomplishments_env = os.getenv("ACCOMPLISHMENTS")
+    accomplishments_list = [f"<li>{accomplishment.strip().capitalize()}</li>" for accomplishment in accomplishments_env.split(',') if accomplishment]
+    return "".join(accomplishments_list)
 
 # Turn goals into <li> elements
 def get_goals():
@@ -54,6 +60,9 @@ def send_email(subject, name='Future Me'):
         Hi {name},
         Trying to send and automated email with code.
         
+        Accomplishments:
+        {get_accomplishments()}
+        
         Goals:
         {get_goals()}
         
@@ -76,6 +85,11 @@ def send_email(subject, name='Future Me'):
         <p>Hi {name},</p>
         <p>I wanted to share this automated email created with Python. It's not just an email; it's a way to practice and learn about different Python modules.</p>
 
+        <h3>Accomplishments:</h3>
+        <ul>
+            {get_accomplishments()}
+        </ul>
+        
         <h3>Goals:</h3>
         <ul>
             {get_goals()}
